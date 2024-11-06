@@ -2,12 +2,20 @@ package hw4_hess;
 
 /*
  * AUthor : Phillip Hess
+
  * Date: 11/1/24
- * Description : Homework 4
+ * Description : Vehicle documentation program, that takes in general Vehicle specs, along truck and jet ski specific specs -
+ * it is designed with a vehicle super() class and two inherited classes.
+ * it is designed with error handling so that every input must be correctly provided or you will be asked to re-enter
  */
 
 import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
+
+//==================   CLASS HW_4    =======================//
+
+
 
 public class HW4_HESS {
 	
@@ -16,6 +24,10 @@ public class HW4_HESS {
 	static ArrayList<Jetski> jetskiList = new ArrayList<Jetski>();
 	
 	static String input = "";
+	
+	//
+	
+	//==================   MAIN    =======================//
 	
 
 	public static void main(String[] args) {
@@ -101,7 +113,11 @@ public class HW4_HESS {
 
 	}//end main
 	
+	//==================   END MAIN    =======================//
 	
+	
+	
+	//==================  MENU     =======================//
 	
 	public static int menu() {
 		int selection;
@@ -113,6 +129,12 @@ public class HW4_HESS {
 		
 	}//end menu
 	
+	//==================   END MENU    =======================//
+	
+	
+	
+	
+	//==================   TRUCK MENU    =======================//
 	
 	
 	public static int truckMenu() {
@@ -125,6 +147,10 @@ public class HW4_HESS {
 		
 	}
 	
+	//==================    END TRUCK MENU   =======================//
+	
+	//==================    DISPLAY ALL TRUCKS   =======================//
+	
 	public static void displayAllTrucks() {
 		for(int i = 0; i < truckList.size(); i++) {
 			JOptionPane.showMessageDialog(null, "VIN : " + truckList.get(i).VIN + 
@@ -135,6 +161,10 @@ public class HW4_HESS {
 		}
 		
 	}
+	
+	//==================   END DISPLAY ALL TRUCKS    =======================//
+	
+	//==================  DISPLAY ALL JET SKIS     =======================//
 	
 	public static void displayAllJetskis() {
 		for(int i = 0; i < jetskiList.size(); i++) {
@@ -148,7 +178,10 @@ public class HW4_HESS {
 		
 	}
 	
+	//==================    END DISPLAY ALL JETSKIS   =======================//
+
 	
+	//==================    JET SKI MENU   =======================//
 	
 	public static int jetskiMenu() {
 		int jetskiMenuSelection;
@@ -160,13 +193,21 @@ public class HW4_HESS {
 		
 	}
 	
+	//==================    END JET SKI MENU   =======================//
+	
 	
 
 }//end class HW4
 
+//==================   END CLASS HW_4    =======================//
+
+//==================    CLASS VEHICLE   =======================//
+
+
 class Vehicle{
 	
 	static String input = "";
+	static boolean check = false;
 	
 	String VIN;
 	String make;
@@ -186,56 +227,196 @@ class Vehicle{
 		
 	}
 	
+	//==================    GET VEHICLE INFO  =======================//
+	
 	void getVehicleInfo() {
 		input = JOptionPane.showInputDialog("Please Enter VIN : "); 
+		checkVIN();
 		VIN = input;
+		while(!checkVIN()) {
+			JOptionPane.showMessageDialog(null,"incorrect 10 charcaters number and letters only !!");
+			input = JOptionPane.showInputDialog("Please Enter VIN : "); 
+			VIN = input;
+			checkVIN();
+		}//end while
+		
 		input = JOptionPane.showInputDialog("Please Enter make : "); 
+		checkMake();
 		make = input;
+		while(!checkMake()) {
+			JOptionPane.showMessageDialog(null,"incorrect letters only !!");
+			input = JOptionPane.showInputDialog("Please Enter Make : "); 
+			make = input;
+			checkMake();
+		}//end while
+		
 		input = JOptionPane.showInputDialog("Please Enter model : "); 
+		checkModel();
 		model = input;
+		while(!checkModel()) {
+			JOptionPane.showMessageDialog(null,"incorrect letters only !!");
+			input = JOptionPane.showInputDialog("Please Enter Make : "); 
+			model = input;
+			checkModel();
+		}//end while
+		
+		
+//		input = JOptionPane.showInputDialog("Please Enter model : "); 
+//		model = input;
 	}
+	
+	//==================    END GET VEHICLE INFO  =======================//
+
+	
+	//==================   DISPLAY VEHICLE INFO   =======================//
+
 	
 	void displayVehiceInfo() {
 		JOptionPane.showMessageDialog(null, "VIN :" + VIN + "\n" + 
-											"make :" + model + "\n" + 
-											"model :" + make);
+											"make :" + make + "\n" + 
+											"model :" + model);
+		
+		
 	}//end display truck 
+	
+	//==================   END DISPLAY VEHICLE INFO   =======================//
+
+	
+	//==================  CHECK MAKE    =======================//
+
+	
+	boolean checkMake() {
+		  for (int i = 0; i < input.length(); i++) {
+            if (!Character.isLetter(input.charAt(i))) {
+                return false;
+           }
+            }
+        return true;
+    }//end chackMake
+	
+	//==================   END CHECK MAKE   =======================//
+
+	
+	//==================   CHECK VIN   =======================//
+
+	
+	boolean checkVIN() {
+		if (input.length() != 10) {
+            return false;
+	} else {
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isLetter(input.charAt(i)) && !Character.isDigit(input.charAt(i))) {
+                return false;
+            }
+        }
+    }
+    return true;
+	}//end checkVIN
+	
+	//==================   END CHECK VIN   =======================//
+
+	//==================   CHECK MODEL   =======================//
+
+	
+	boolean checkModel() {
+	     for (int i = 0; i < input.length(); i++) {
+	           if (!Character.isLetter(input.charAt(i)) && !Character.isDigit(input.charAt(i))) {
+	               return false;
+	           }
+	       }
+	     return true;
+	   }
+	
+	//==================   END CHECK MODEL   =======================//
+
 	
 	
 }//end class Vehicle
 
+//==================    END CLASS VEHICLE   =======================//
+
+
+//==================  CLASS TRUCK     =======================//
 
 
 
 class Truck extends Vehicle{
 	
-	int engineSize;
+	double engineSize;
 	String input = "";
 	
 	Truck(){
 		super();
-		int engineSize = 0;
+		double engineSize = 0;
 		
 	}//end without arguments
 	
-	Truck(String VIN, String make, String model,int engineSize){
+	Truck(String VIN, String make, String model,double engineSize){
 		super(VIN,make,model);
 		this.engineSize = engineSize;
 	}
 	//end with arguments
+
+	//==================    GET TRUCK INFO  =======================//
+
 	
 	void getTruckInfo() {
 		input = JOptionPane.showInputDialog("Please Enter Engine Size : "); 
-		engineSize = Integer.parseInt(input);
+		checkSize();
+		while(!checkSize()) {
+			JOptionPane.showMessageDialog(null,"incorrect must be ##.# format!");
+			input = JOptionPane.showInputDialog("Please Enter Engine Size : "); 
+			checkSize();
+		}//end while
+		engineSize = Double.parseDouble(input);
 	}//end get info
+	
+	//==================   END GET TRUCK INFO   =======================//
+
+	
+	//==================   DISPLAY TRUCK INFO   =======================//
+
 	
 	void displayTruckInfo() {
 		JOptionPane.showMessageDialog(null, "Truck EngineSize :" + engineSize );
 	}//end display truck 
 	
+	//==================   END DISPLAY TRUCK INFO   =======================//
+
+	
+	
+	//==================   CHECK SIZE   =======================//
+
+	
+	boolean checkSize() {
+    	if(input.length() != 4) {
+    		return false;
+    	}
+    	if(!Character.isDigit(input.charAt(0)) || !Character.isDigit(input.charAt(1))) {
+    			return false;
+    	}
+    	if (input.charAt(2) != '.') {
+    		return false;
+    	}
+    	if(!Character.isDigit(input.charAt(3))) {
+			return false;
+	}
+    	return true;
+    }//end check size
+	
+	//==================   END CHECK SIZE   =======================//
+
+    
+    
+   
+	
 	
 }//end sub class truck
 
+//==================   END CLASS TRUCK    =======================//
+
+
+//==================    CLASS JET SKI   =======================//
 
 
 
@@ -256,18 +437,78 @@ class Jetski extends Vehicle{
 		this.hours = hours;
 	}
 	
+	//==================      =======================//
+
+	
 	void getJetskiInfo() {
-		input = JOptionPane.showInputDialog("Please jet-ski type : "); 
+		
+		input = JOptionPane.showInputDialog("Please Enter jetSki type  : "); 
+		checkType();
+		while(!checkType()) {
+			JOptionPane.showMessageDialog(null,"incorrect must be letter only");
+			input = JOptionPane.showInputDialog("Please Enter jetSki type  : "); 
+			checkType();
+		}//end while
 		type = input;
-		input = JOptionPane.showInputDialog("Please enter hours on engine: "); 
+		
+		
+		input = JOptionPane.showInputDialog("please enter how many hours are on the engine : "); 
+		checkHours();
+		while(!checkHours()) {
+			JOptionPane.showMessageDialog(null,"incorrect must be numbers only");
+			input = JOptionPane.showInputDialog("Please Enter how many hours are on engine : "); 
+			checkHours();
+		}//end while
 		hours = Integer.parseInt(input);
+		
+		
+		
+		
 	}//end get info
+	
+	//==================   DISPLAY JET SKI INFO   =======================//
+
 	
 	void displayJetskiInfo() {
 		JOptionPane.showMessageDialog(null, "Jet Ski Type : " + type + "\n" + 
 											"JetSKi hours :" + hours );
-	}//end display truck 
+	}//end display jetski
+	
+	//==================   END DISPLAY JET SKI INFO   =======================//
+
+	//==================   CHECK TYPE   =======================//
+
+	
+	 boolean checkType() {
+		 for (int i = 0; i < input.length(); i++) {
+	            if (!Character.isLetter(input.charAt(i))) {
+	                return false;
+	           }
+	            }
+	        return true;
+	    }
+	 
+		//==================   END CHECK TYPE   =======================//
+
+	 
+		//==================   CHECK HOURS   =======================//
+
+	    
+	    boolean checkHours() {
+	        for (int i = 0; i < input.length(); i++) {
+	            if (!Character.isDigit(input.charAt(i))) {
+	                return false;
+	            }
+	        }
+	    return true;
+	    }
+	    
+		//==================   END CHECK HOURS   =======================//
+
 	
 }//end sub class jet ski
+
+//==================    END CLASS JET SKI   =======================//
+
 
 
